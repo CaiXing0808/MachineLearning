@@ -1,0 +1,131 @@
+\documentclass{svproc}
+%
+% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+% to typeset URLs, URIs, and DOIs
+\usepackage{url}
+\def\UrlFont{\rmfamily}
+\usepackage{graphicx,amsmath}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{subfigure}
+\usepackage{caption}
+
+\begin{document}
+\mainmatter              % start of a contribution
+%
+
+\title{Report}
+%
+\titlerunning{Martingale, Yonglin Zhu(yzhu459)}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Yonglin Zhu\inst{1} }
+%
+%
+%%%% list of authors for the TOC (use if author list has to be modified)
+
+\institute{yzhu459, 902908165}
+\maketitle              % typeset the title of the contribution
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{In Experiment 1, estimate the probability of winning $\$80$ within 1000 sequential bets. Explain your reasoning.}\label{sec1}
+
+The probability of winning $\$80$ is $100\%$(or to be more accurate, very close to $100\%$). 
+As shown in Fig.1, all 10 simulations get to $\$80$ at about 200 bets, long before the end. 
+And also in the Fig.2, all the means is $\$80$ and standard deviations are 0 after about 200. 
+Because the strategy that double the bet amount after losing one spin will turn it around once hit one win. 
+For the worst case scenario except losing, if keep losing for 999 times, the episode winnings will be $\sum_i^{998} 2^i$. 
+Then the next bet amount is $2^{999}$. If win, the last winning is greater than $0$($ 2^{999} - \sum_i^{998} 2^i>0$).
+The only case of losing is 1000 sequential losing. 
+The probablity of losing 1000 sequential bets is $(1-win\_prob)^{1000} = (1-18/38)^{1000} \approx1.76\times10^{-279}$. 
+So the estimate the probability of winning $\$80$ within 1000 sequential bets is $1-1.76\times10^{-279}\approx 1$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{In Experiment 1, what is the expected value of our winnings after 1000 sequential bets? Explain your reasoning. Go here to learn about expected value: https://en.wikipedia.org/wiki/Expected\_value}\label{sec2}
+According to the reason from above, the probability of winning $\$80$ is $1-1.76\times10^{-279}$. 
+And the other case is losing $- \sum_{i=0}^{999} 2^i$ with the probability of $1.76\times10^{-279}$. 
+Therefore the expected value of our winnings after 1000 sequential bets is $80\times(1-1.76\times10^{-279})+(- \sum_{i=0}^{999} 2^i)*(1.76\times10^{-279}) \approx 80$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{In Experiment 1, does the standard deviation reach a maximum value then converge or stabilize as the number of sequential bets increases? Explain why it does (or does
+not).}\label{sec3}
+Yes. The standard deviation reach a maximum value and the converage to 0. At the beginning of the simulation, the episode winnings in each simulation is very random. And then almost $100\%$ the winning will become $\$80$, which means the standard deviation will be 0, as shown in~\cite{fig1}.
+
+\begin{figure}[ht!]
+    \centering
+            \centering
+        \includegraphics[width=.98\textwidth]{../ex1SD.png}
+        \label{fig1}
+\end{figure}
+
+\section{In Experiment 2, estimate the probability of winning $\$80$ within 1000 sequential bets. Explain your
+reasoning.}\label{sec4}
+In the experiment 2, I got 640 simulations with winning $\$80$ out of 1000 simulations. 
+So my estimated the probability of winning $\$80$ within 1000 sequential bets is $64\%$. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{In Experiment 2, what is the expected value of our winnings after 1000 sequential bets? Explain your reasoning.}\label{sec5}
+From my experiment 2, I got 640 simulations with $\$80$ winning and 359 simulations with $\${-256}$ winning and one time with winning $\$42$. 
+So that the expected value of our winnings after 1000 sequential bets can be $0.64\times80+0.359*({-256})+0.001*42 = {-40.662}$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{In Experiment 2, does the standard deviation reach a maximum value then converge or stabilize as the number of sequential bets increases? Explain why it does (or does not).}\label{sec6}
+No. Unlike the case in experiment 1, the standard deviation has no obvious maximum. The standard deviation keeps increasing and converges to a value close to $\$160$.
+
+\begin{figure}[ht!]
+    \centering
+            \centering
+        \includegraphics[width=.98\textwidth]{../ex2SD.png}
+                \label{fig2}
+\end{figure}
+
+\section{Include figures 1 through 5.}\label{sec7}
+The figures 1 through 5 are attach as Fig.3 to 7 as below.
+\begin{figure}[ht!]
+    \centering
+            \centering
+        \includegraphics[width=.98\textwidth]{../ex1fig1.png}
+                \label{fig3}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+            \centering
+        \includegraphics[width=.98\textwidth]{../ex1fig2.png}
+                \label{fig4}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+            \centering
+        \includegraphics[width=.98\textwidth]{../ex1fig3.png}
+                \label{fig5}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+            \centering
+        \includegraphics[width=.98\textwidth]{../ex2fig4.png}
+                \label{fig6}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+            \centering
+        \includegraphics[width=.98\textwidth]{../ex2fig5.png}
+                \label{fig7}
+\end{figure}
+\newpage
+More info about this, go to: \url{http://quantsoftware.gatech.edu/Martingale}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
