@@ -19,7 +19,7 @@
 
 \title{Report}
 %
-\titlerunning{Martingale, Yonglin Zhu(yzhu459)}  % abbreviated title (for running head)
+\titlerunning{ML_HW1, Yonglin Zhu(yzhu459)}  % abbreviated title (for running head)
 %                                     also used for the TOC unless
 %                                     \toctitle is used
 %
@@ -30,22 +30,27 @@
 
 \institute{yzhu459, 902908165}
 \maketitle              % typeset the title of the contribution
+\section{Introduction}
+Dataset1: Income
+Problem 1 
+Dataset2: Mushroom
+Problem 2
+\section{Data Preparatation}
+%% Clean data 
+%% test vs train
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Method}
+Your learning curve can be 
+Train/test split rate
+Depth of tree for Decision tree
+number of features
+
+\secsection{Random Forest}\label{sec1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{In Experiment 1, estimate the probability of winning $\$80$ within 1000 sequential bets. Explain your reasoning.}\label{sec1}
-
-The probability of winning $\$80$ is $100\%$(or to be more accurate, very close to $100\%$). 
-As shown in Fig.1, all 10 simulations get to $\$80$ at about 200 bets, long before the end. 
-And also in the Fig.2, all the means is $\$80$ and standard deviations are 0 after about 200. 
-Because the strategy that double the bet amount after losing one spin will turn it around once hit one win. 
-For the worst case scenario except losing, if keep losing for 999 times, the episode winnings will be $\sum_i^{998} 2^i$. 
-Then the next bet amount is $2^{999}$. If win, the last winning is greater than $0$($ 2^{999} - \sum_i^{998} 2^i>0$).
-The only case of losing is 1000 sequential losing. 
-The probablity of losing 1000 sequential bets is $(1-win\_prob)^{1000} = (1-18/38)^{1000} \approx1.76\times10^{-279}$. 
-So the estimate the probability of winning $\$80$ within 1000 sequential bets is $1-1.76\times10^{-279}\approx 1$.
-
+\secsection{SVN}\label{sec1}
+% use sklearn.svm.SVC to try more kernels
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{In Experiment 1, what is the expected value of our winnings after 1000 sequential bets? Explain your reasoning. Go here to learn about expected value: https://en.wikipedia.org/wiki/Expected\_value}\label{sec2}
 According to the reason from above, the probability of winning $\$80$ is $1-1.76\times10^{-279}$. 
 And the other case is losing $- \sum_{i=0}^{999} 2^i$ with the probability of $1.76\times10^{-279}$. 
