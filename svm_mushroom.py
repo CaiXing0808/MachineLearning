@@ -22,7 +22,7 @@ from sklearn.model_selection import validation_curve
 #########################################
 #        Data Preparation 
 #########################################
-dirt = ""
+dirt = "./"
 def getData2():
     mush = pd.read_csv(dirt + 'mush.csv')
     mush.dropna(inplace=True)
@@ -64,11 +64,10 @@ def getData2():
     print("get data mushroom!")
     return X,Y,feature_names
 #############################################3
-
 def plot_learning_curves(model, X, Y,stepsize):
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2,random_state=42)
     train_scores, val_scores = [], []
-    for m in range (1, int(len(X_train)),stepsize):
+    for m in range (int(len(X_train)/100), int(len(X_train)),stepsize):
         model.fit(X_train[:m], Y_train[:m])
         Y_train_predict = model.predict(X_train[:m])
         Y_test_predict = model.predict(X_test)
@@ -97,58 +96,64 @@ if __name__ == "__main__":
     ##################################################################################
     ##   Learning Curve 
     ##################################################################################
-    mush_tree = tree.DecisionTreeClassifier(criterion='entropy', max_depth=len(X.columns))
-    mush_tree.fit(X_train, Y_train)
-    predictions = mush_tree.predict(X_test)
-    plt=plot_learning_curves(mush_tree, X, Y,10)
-    plt.savefig("DT_mushroom_LearningCurve")
-    ##################################################################################
-    ## Tuning and Pruning
-    #######################################################################################
-    fmax_depth = 4
-    fmax_leaf_nodes = 5
-    ftest_size = 0.2
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=ftest_size,random_state=42)
-    mush_tree = tree.DecisionTreeClassifier(criterion='entropy', max_depth=fmax_depth, max_leaf_nodes=fmax_leaf_nodes)
-    mush_tree.fit(X_train, Y_train)
-    #######################################################################################
-    # 10-fold cross-validation
-    #######################################################################################
-    predictions = mush_tree.predict(X_test)
-    print(metrics.confusion_matrix(Y_test, predictions))
-    print("Accuracy Score =", metrics.accuracy_score(Y_test, predictions))
-    print(cross_val_score(mush_tree, X_train, Y_train, cv=5, scoring = "accuracy"))
+    clf = SVC(kernel='linear')
+    clf.fit(X, Y.values.ravel())
+    predictions = clf.predict(X_test)
+    plt=plot_learning_curves(clf, X, Y.values.ravel(),1000)
+    plt.savefig("svm_mushroom_LearningCurve_linear")
 
-    #######################################################################################
-    ## Decision Tree Visualization
-    #######################################################################################
-    export_graphviz(mush_tree, out_file="tree_mushroom.dot", feature_names=feature_names,
-    class_names=('0','1','2','3','4','5'), rounded=True,filled=True)
-    (graph,) = pydot.graph_from_dot_file('tree_mushroom.dot')
-    graph.write_png('dt_mushroom.png')
-    #######################################################################################
-    ## Feature ranking Visualization
-    #######################################################################################
-    importances = mush_tree.feature_importances_
-    indices = np.argsort(importances)[::-1]
-    # Print the feature ranking
-    #print("Feature ranking:")
-    #for f in range(X.shape[1]):
-    #    print("%d. feature %d (%f)" % (f + 1, indices[f], importances[indices[f]]))
-    # Plot the feature importances 
-    plt.figure()
-    plt.title("Feature importances")
-    plt.bar(range(X.shape[1]), importances[indices],color="r", align="center")
-    plt.xticks(range(X.shape[1]), indices)
-    plt.xlim([-1, 10])
-    plt.savefig("FI_mushroom.png")
+#    from sklearn.neighbors import KNeighborsClassifier
+#    n = 3
+#    neigh = KNeighborsClassifier(n_neighbors=n)
+#    neigh.fit(X_train, Y_train.values.ravel())
+#    predictions = neigh.predict(X_test)
+#    plt=plot_learning_curves(neigh, n,X, Y.values.ravel(),100)
+#    plt.savefig("knn_mush_LearningCurve")
+#
+#    ##################################################################################
+#    ## Tuning and Pruning
+#    #######################################################################################
+#   
+#    # subsetting just the odd ones
+#    neighbors = list(range(1,10,2))
+#   
+#    # empty list that will hold cv scores
+#    cv_scores = []
+#   
+#    # perform 10-fold cross validation
+#    for k in neighbors:
+#        knn = KNeighborsClassifier(n_neighbors=k)
+#        scores = cross_val_score(knn, X_train, Y_train.values.ravel(), cv=10, scoring='accuracy')
+#        cv_scores.append(scores.mean())
+#    # changing to misclassification error
+#    MSE = [1 - x for x in cv_scores]
+#   
+#    # determining best k
+#    optimal_k = neighbors[MSE.index(min(MSE))]
+#    print("The optimal number of neighbors is %d" % optimal_k)
+#   
+#    # plot misclassification error vs k
+#    plt.plot(neighbors, MSE)
+#    plt.xlabel('Number of Neighbors K')
+#    plt.ylabel('Misclassification Error')
+#    plt.show()
+#    
+#    fn = optimal_k
+#   
+#    neigh = KNeighborsClassifier(n_neighbors=fn)
+#    neigh.fit(X_train, Y_train.values.ravel())
+#    predictions = neigh.predict(X_test)
+#    print(metrics.confusion_matrix(Y_test.values.ravel(), predictions))
+#
+#    ########################################################################################
+#    ## Cross-validation
+#    ########################################################################################
+#    print("Accuracy Score =", metrics.accuracy_score(Y_test.values.ravel(), predictions))
+#    print(cross_val_score(neigh, X_train, Y_train.values.ravel(), cv=10, scoring = "accuracy"))
+#
+#    ########################################################################################
+#    ### KNN Visualization
+    ########################################################################################
 
-##########################################################
-    clf = SVC()
-#  clf.fit(X, Y) 
-#  SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-#      decision_function_shape='ovr', degree=3, gamma='auto', kernel='rbf',
-#      max_iter=-1, probability=False, random_state=None, shrinking=True,
-#      tol=0.001, verbose=False)
   except:
     traceback.print_exc()
